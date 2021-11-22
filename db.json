@@ -13,12 +13,12 @@
     {
       "id": 1,
       "body": "text",
-      "postId": 1,
+      "postId": 1
     },
     {
       "id": 2,
       "body": "text",
-      "postId": 1,
+      "postId": 1
     }
   ],
   "profile": {
