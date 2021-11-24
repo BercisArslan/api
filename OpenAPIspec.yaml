@@ -35,6 +35,9 @@ paths:
   /posts:
     summary: fetch, and add posts
     description: returns posts when fetched or stores on server
+    parameters:
+      - $ref: '#/components/parameters/Limits'
+      - $ref: '#/components/parameters/Offsets'
     get:
       summary: fetch all posts
       description: returns all posts from server
@@ -165,18 +168,14 @@ paths:
       description: get a post by id
       operationId: getPost
       parameters:
-        - in: path
-          name: postId
-          required: true
-          schema:
-            type: integer
-            minimum: 0
-            example: 2
+        - $ref: '#/components/parameters/postId'
       responses:
         default:
           description: Default error sample response
       tags:
         - posts
+        
+        
 components:
   schemas:
     PostBody:
@@ -191,3 +190,26 @@ components:
         author:
           type: string
           example: bercis
+  parameters:
+    postId:
+      in: path
+      name: postId
+      required: true
+      schema:
+        type: integer
+        minimum: 0
+        example: 2
+    Limits:
+      name: limit
+      in: query
+      schema:
+        type: integer
+        default: 20
+    Offsets: 
+      name: offset
+      in: query
+      schema:
+        type: integer
+        default: 20
+    
+      
