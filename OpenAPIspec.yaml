@@ -1,0 +1,193 @@
+openapi: 3.0.1
+info:
+  title: My API
+  version: '1.0'
+  description: An API for data from server
+  termsOfService: http://www.example.com/service
+  contact:
+    email: bercis.arslan@seb.se
+    name: Bercis Arslan
+    url: http://www.example.com
+  license:
+    name: License
+    url: http://www.license.com/license
+servers:
+  - url: http://localhost:{port}
+    variables:
+      port:
+        default: '3000'
+        enum:
+          - '3000'
+          - '8080'
+        description: ''
+    description: Local JSON server
+  - url: https://my-json-server.typicode.com/{github}
+    variables:
+      github:
+        default: bercisarslan/api
+        enum:
+          - bercisarslan/api
+          - bearc0025/api
+          - typicode/demo
+        description: ''
+    description: Typicode Servers
+paths:
+  /posts:
+    summary: fetch, and add posts
+    description: returns posts when fetched or stores on server
+    get:
+      summary: fetch all posts
+      description: returns all posts from server
+      operationId: fetchPosts
+      responses:
+        default:
+          description: Default error sample response
+      tags:
+        - posts
+    post:
+      summary: add posts
+      description: 'add new posts '
+      operationId: addPost
+      responses:
+        2XX:
+          description: successful POST
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/PostBody'
+        default:
+          description: Default error sample response
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                title:
+                  type: string
+                  example: my post
+                author:
+                  type: string
+                  example: bercis
+      tags:
+        - posts
+  /comments:
+    summary: fetch comments
+    description: returns all comments when fetched
+    get:
+      summary: fetch all comments
+      description: returns all comments
+      operationId: fetchComments
+      responses:
+        default:
+          description: Default error sample response
+      tags:
+        - comments
+    post:
+      summary: add a comment
+      description: add a comment
+      operationId: addComment
+      responses:
+        default:
+          description: Default error sample response
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                body:
+                  type: string
+                  example: my comment
+                postId:
+                  type: integer
+                  example: 1
+      tags:
+        - comments
+  /profile:
+    summary: fetch the profile
+    description: return the profile when fetched
+    get:
+      summary: fetch the profile
+      description: return the profile when fetched
+      operationId: fetchProfile
+      responses:
+        default:
+          description: Default error sample response
+          content:
+            application/json:
+              examples:
+                JSON example:
+                  value: '|- { "name": "typicode" }'
+      tags:
+        - profile
+  /reviews:
+    summary: fetch reviews
+    description: return reviews
+    get:
+      summary: fetch reviews
+      description: return reviews
+      operationId: reviews
+      responses:
+        default:
+          description: Default error sample response
+      tags:
+        - reviews
+    post:
+      summary: add review
+      description: add a new review
+      operationId: postReview
+      responses:
+        default:
+          description: Default error sample response
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                text:
+                  type: string
+                  example: another great review
+                postId:
+                  type: integer
+                  example: 2
+      tags:
+        - reviews
+  /posts/{postId}:
+    summary: individual post operation
+    description: fetch, delete, update
+    get:
+      summary: fetch a post
+      description: get a post by id
+      operationId: getPost
+      parameters:
+        - in: path
+          name: postId
+          required: true
+          schema:
+            type: integer
+            minimum: 0
+            example: 2
+      responses:
+        default:
+          description: Default error sample response
+      tags:
+        - posts
+components:
+  schemas:
+    PostBody:
+      type: object
+      properties:
+        id:
+          type: integer
+          example: 123
+        title:
+          type: string
+          example: my post
+        author:
+          type: string
+          example: bercis
