@@ -137,23 +137,16 @@ paths:
       requestBody:
         required: true
         content:
-          application/json:
-            schema:
-              type: object
-              properties:
-                text:
-                  type: string
-                  example: another great review
-                postId:
-                  type: integer
-                  example: 2
+         application/json:
+          schema:
+            $ref: '#/components/schemas/NewReview'
       tags:
         - reviews
   /posts/{postId}:
     summary: individual post operation
     description: fetch, delete, update
     parameters:
-        - $ref: '#/components/parameters/postId'
+      - $ref: '#/components/parameters/postId'
     get:
       summary: fetch a post
       description: get a post by id
@@ -172,6 +165,15 @@ paths:
           description: Default error sample response
       tags:
         - posts
+    patch:
+      summary: update post
+      description: patch post
+      operationId: updatePost
+      responses:
+        default:
+          description: Default error sample response
+      tags:
+        - posts
 components:
   requestBodies:
     PostReq:
@@ -181,6 +183,7 @@ components:
         application/json:
           schema:
             $ref: '#/components/schemas/NewPostBody'
+            
   schemas:
     NewPostBody:
       type: object
@@ -203,6 +206,15 @@ components:
         author:
           type: string
           example: bercis
+    NewReview:
+      type: object
+      properties:
+        text:
+          type: string
+          example: another great review
+        postId:
+          type: integer
+          example: 2
   parameters:
     postId:
       in: path
