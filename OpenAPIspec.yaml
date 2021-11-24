@@ -61,18 +61,7 @@ paths:
         default:
           description: Default error sample response
       requestBody:
-        required: true
-        content:
-          application/json:
-            schema:
-              type: object
-              properties:
-                title:
-                  type: string
-                  example: my post
-                author:
-                  type: string
-                  example: bercis
+        $ref: '#/components/requestBodies/PostReq'
       tags:
         - posts
   /comments:
@@ -163,21 +152,45 @@ paths:
   /posts/{postId}:
     summary: individual post operation
     description: fetch, delete, update
+    parameters:
+        - $ref: '#/components/parameters/postId'
     get:
       summary: fetch a post
       description: get a post by id
       operationId: getPost
-      parameters:
-        - $ref: '#/components/parameters/postId'
       responses:
         default:
           description: Default error sample response
       tags:
         - posts
-        
-        
+    delete:
+      summary: delete a post
+      description: delete a single post
+      operationId: deletePost
+      responses:
+        default:
+          description: Default error sample response
+      tags:
+        - posts
 components:
+  requestBodies:
+    PostReq:
+      description: Post request
+      required: true
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/NewPostBody'
   schemas:
+    NewPostBody:
+      type: object
+      properties:
+        title:
+          type: string
+          example: my post
+        author:
+          type: string
+          example: bercis
     PostBody:
       type: object
       properties:
@@ -205,11 +218,9 @@ components:
       schema:
         type: integer
         default: 20
-    Offsets: 
+    Offsets:
       name: offset
       in: query
       schema:
         type: integer
         default: 20
-    
-      
